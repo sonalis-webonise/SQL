@@ -1,0 +1,172 @@
+Tables
+
+create table userprofile
+( userid int(5),
+fname varchar(100),
+lname varchar(100),
+emailid varchar(100),
+password varchar(50),
+gender varchar(20),
+dob date
+);
+
+create table comment
+) userid int(5),
+comment varchar(100)
+);
+
+create table request
+( useridone int(5),
+useridtwo int(5),
+status varchar(100),
+action_userid int(5)
+);
+
+create table usercount
+( userid int(5),
+no_friendreq int(5),
+no_friends int(10),
+no_posts int(5),
+no_comments int(10)
+);
+
+create table userlog
+( userid int(5),
+friendreq_list varchar(500),
+friends_list int(10),
+posts_list int(5),
+comments_list int(10)
+);
+--------------------------------------------------------
+Userprofile entries
+
+insert into userprofile values(1,"Nikita","Rathod","nikita@gmail.com","nikita@123","female","1994-09-03");
+
+insert into userprofile values(2,"Sonali","Sulgadle","sssonali@gmail.com","sssonali","female","1995-05-28");
+
+insert into userprofile values(3,"Kalyani","Thorat","kthorat@gmail.com","kt@123","female","1993-09-23");
+
+insert into userprofile values(4,"Ritu","Sachdev","ritu24@gmail.com","ritudev","female","1996-02-29");
+
+insert into userprofile values(5,"Shrushti","Swami","shrush@gmail.com","shrush1","female","1992-04-17");
+------------------------------------------------------------
+Article entries
+
+insert into article values(2,"This is my first post.");
+
+insert into article values(3,"Hey there! I m new on this social site.");
+
+insert into article values(4,"This is an sample article");
+
+insert into article values(5,"New on social site..");
+-----------------------------------------------------------
+
+Comments entries
+
+insert into comment values(1,"Nice pic");
+
+insert into comment values(2,"True quote");
+
+insert into comment values(4,"Nice");
+----------------------------------------------------------
+
+Userlog entries
+
+insert into userlog values(1,"Nisha Mehra, Ritu Sachdev","Riya Rathod","My article","Nice pic");
+
+insert into userlog values(3,"Priti Sen, Anshul Mehta","Riya Rathod, Priya Jain","Hey there! I m new on this social site.","No comments");
+--------------------------------------------------------
+
+Usercount entries
+
+insert into usercount values(1,1,2,1,1);
+
+insert into usercount values(3,2,2,1,1);
+----------------------------------------------------------
+
+Request entries
+
+insert into request values(1,4,"Friends",1);
+
+insert into request values(3,2,"Pending",2);
+--------------------------------------------------------------
+
+Queries
+
+1.
+select * from userprofile;
+
+2.
+select distinct userid,fname,friendreq_list
+from userprofile u
+join userlog ur
+where u.userid=ur.userid;
+
+3.
+select *
+from userprofile
+join request
+on userprofile.userid=request.useridone;
+
+4.
+select *
+from userprofile
+join usercount
+on userprofile.userid=usercount.userid;
+
+5.
+select *
+from userprofile
+join comment
+on userprofile.userid=comment.userid;
+
+6.
+select *
+from userprofile
+left join usercount
+on userprofile.userid=usercount.userid;
+
+7.
+select *
+from userprofile
+left join request
+on userprofile.userid=request.useridone;
+
+8.
+select distinct u.*,a.article
+from userprofile u
+left join article a
+on u.userid=a.userid;
+
+9.
+select *
+from request
+where status="Pending";
+
+10.
+select distinct userprofile.userid, fname, lname,no_friendreq,no_friends
+from userprofile
+inner join usercount
+on userprofile.userid = usercount.userid;
+
+11.
+select count(userid)
+from userprofile
+where exists (select * from article where userprofile.userid=article.userid);
+
+12.
+insert into userprofile values(7,"Kalyani","Rathod","kt879@gmail.com","kittu@123","female","1992-07-14");
+
+select * from userprofile;
+
+13.
+select *
+from userprofile
+where fname='Kalyani'
+and dob="1992-07-14";
+
+14.
+select distinct userprofile.userid, fname, lname,friendreq_list,friends_list
+from userprofile
+inner join userlog
+on userprofile.userid = userlog.userid;
